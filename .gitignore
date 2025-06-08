@@ -3,4 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Environment variables file
 .env
+.env.*
+
