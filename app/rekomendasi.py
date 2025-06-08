@@ -1,6 +1,6 @@
 from google import genai
 
-client = genai.Client(api_key="AIzaSyDU5foG9pP_BiXdJlby3ugmRkZMDYeL2Ms")
+client = genai.Client(api_key="GOOGLE_API_KEY")
 
 def get_rekomendasi(depresi, kecemasan, stress,label_ml):
     prompt = (        
