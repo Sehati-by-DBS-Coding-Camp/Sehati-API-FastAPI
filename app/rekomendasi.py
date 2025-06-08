@@ -1,6 +1,17 @@
 from google import genai
+import os
+from dotenv import load_dotenv
 
-client = genai.Client(api_key="GOOGLE_API_KEY")
+load_dotenv("var/.env")
+
+try:
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+    client = genai.Client(api_key=GOOGLE_API_KEY)
+    if not GOOGLE_API_KEY:
+        raise ValueError("GOOGLE_API_KEY tidak ditemukan di environment.")
+except Exception as e:
+    raise RuntimeError(f"Error saat menginisialisasi Google Gen AI Client: {e}")
+
 
 def get_rekomendasi(depresi, kecemasan, stress,label_ml):
     prompt = (        
@@ -18,8 +29,14 @@ def get_rekomendasi(depresi, kecemasan, stress,label_ml):
         f"Fokus hanya pada rekomendasi dengan teori berdasarkan metode DASS-21, tanpa penjelasan atau pendahuluan atau introduction apapun. "
 
     )
-    response = client.models.generate_content(
+    
+    try:
+        if not prompt.strip():
+            raise ValueError("Prompt tidak boleh kosong.")
+        response = client.models.generate_content(
         model="gemini-2.0-flash",
         contents=prompt
-    )
-    return response.text
+        )
+        return response.text
+    except Exception as e:
+        raise RuntimeError(f"Error saat mendapatkan rekomendasi: {e}")

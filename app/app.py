@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from app.rekomendasi import get_rekomendasi
 from app.emotion import predict_emotion
 
+
+load_dotenv("var/.env")
 #Directory untuk model dan tokenizer
 MODEL_DIR = os.getenv("MODEL_DIR", "models")
 MODEL_PATH = os.path.join(MODEL_DIR, "best_lstm_model_tuning.h5")
@@ -52,7 +54,6 @@ def read_root():
 
 @app.post("/predict")
 def predict(input_data: TextInput):
-    print(f"Input diterima: {input_data.text}")
     result = predict_emotion(input_data.text, model, tokenizer, label_encoder)
     return result
 

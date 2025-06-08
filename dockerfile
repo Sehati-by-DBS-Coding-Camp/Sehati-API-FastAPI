@@ -15,6 +15,6 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 # 5. Copy seluruh isi folder app ke dalam container
 COPY ./app /code/app
 
-# 6. Jalankan aplikasi menggunakan Uvicorn
+# 6. Jalankan aplikasi menggunakan gunicorn
 #    Gunicorn sering digunakan sebagai process manager di produksi
-CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["gunicorn", "app.app:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
