@@ -8,7 +8,7 @@ from app.rekomendasi import get_rekomendasi
 from app.emotion import predict_emotion
 
 #Directory untuk model dan tokenizer
-MODEL_DIR = os.path.join(os.path.dirname(__file__), "models")
+MODEL_DIR = os.getenv("MODEL_DIR", "models")
 MODEL_PATH = os.path.join(MODEL_DIR, "best_lstm_model_tuning.h5")
 TOKENIZER_PATH = os.path.join(MODEL_DIR, "tokenizer_lstm.pkl")
 LABEL_ENCODER_PATH = os.path.join(MODEL_DIR, "label_encoder.pkl")
