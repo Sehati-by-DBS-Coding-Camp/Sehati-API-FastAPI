@@ -6,3 +6,5 @@ pydantic==2.11.5
 tensorflow==2.15.0
 tensorflow_intel
 google-genai==1.19.0
+python-dotenv
+

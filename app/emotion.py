@@ -3,6 +3,14 @@ import numpy as np
 
   # Sesuai model
 def predict_emotion(text, model, tokenizer, label_encoder,max_sequence_length = 777):
+    if model is None or tokenizer is None or label_encoder is None:
+        raise ValueError("Model/tokenizer/label encoder tidak dimuat.")
+    
+    if not isinstance(text, str):
+        raise ValueError("Input harus berupa string.")
+    if len(text) == 0:
+        raise ValueError("Input tidak boleh kosong.")
+
     sequence = tokenizer.texts_to_sequences([text])
     padded = pad_sequences(sequence, maxlen=max_sequence_length)
     probabilities = model.predict(padded)[0]
