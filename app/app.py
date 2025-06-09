@@ -6,6 +6,8 @@ import os
 from dotenv import load_dotenv
 from app.rekomendasi import get_rekomendasi
 from app.emotion import predict_emotion
+from app.dass21 import hitung_skala_dass21
+from app.dass21 import hitung_rata_rata_dass21
 
 
 load_dotenv("var/.env")
@@ -46,7 +48,11 @@ class RekomendasiInput(BaseModel):
     stress: int
     label_ml: str
 
-
+class Dass21(BaseModel):
+    depresi: int
+    kecemasan: int
+    stress: int
+    
 @app.get("/", tags=["General"])
 def read_root():
     """Endpoint root untuk mengecek apakah API berjalan."""
@@ -66,4 +72,19 @@ def rekomendasi(input_data: RekomendasiInput):
         "stress": input_data.stress,
         "label_ml": input_data.label_ml,
         "rekomendasi": rekomendasi
+    }
+    
+@app.post("/dass21")
+def dass21(input_data: Dass21):
+    hasil = hitung_skala_dass21(input_data.depresi, input_data.kecemasan, input_data.stress)
+    return {
+        "Depresi": hasil["Depresi"],
+        "Kecemasan": hasil["Kecemasan"],
+        "Stres": hasil["Stres"]
+    }
+@app.post("/dass21/rata-rata")
+def dass21_rata_rata(input_data: Dass21):
+    rata_rata = hitung_rata_rata_dass21(input_data.depresi, input_data.kecemasan, input_data.stress)
+    return {
+        "Rata-rata": rata_rata
     }
